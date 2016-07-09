@@ -1,6 +1,6 @@
 #lang racket
 
-(provide (all-defined-out))
+(provide (except-out (all-defined-out) root))
 
 #| board turn en_passant castle |#
 (struct node (b t e c))
@@ -21,6 +21,17 @@
                 "         \n"))
 
 (define f_c '("wk" "wq" "bk" "bq"))
+
+(define root
+  (node i_b #t 0 '()))
+
+(define (gen n x)
+  (case (string-ref (node-b n) x)
+    [(#\P) (- x 10)]
+    [else "nothing"]
+  ))
+
+
 
 
 
