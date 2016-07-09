@@ -6,4 +6,4 @@
   (node i_b #t 0 '()))
 
 (displayln (pretty root))
-;read-line)
+;(read-line)
