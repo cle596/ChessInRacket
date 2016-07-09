@@ -20,7 +20,7 @@
                 "         \n" 
                 "         \n"))
 
-(define i_c '("wk" "wq" "bk" "bq"))
+(define f_c '("wk" "wq" "bk" "bq"))
 
 
 

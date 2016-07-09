@@ -1,6 +1,9 @@
 #lang racket
 
-(require "node.rkt")
+(require "node.rkt" "util.rkt")
 
 (define root
-  (node i_b true 0 i_c))
+  (node i_b #t 0 '()))
+
+(displayln (pretty root))
+(read-line)
