@@ -68,7 +68,8 @@
     (case (string-ref (node-b n) x)
       [(#\P #\p) (pawn n x)]
       [(#\N #\n) (knight n x)]
-      [(#\R) (- x 10)]
+      [(#\B #\b #\R #\r #\Q #\q) (brq n x)]
+      [(#\K #\k) (king n x)]
       [else "nothing"]
       ))
   
@@ -92,4 +93,12 @@
            (list (+ x up lt)) '()))))
   
   (define (knight n x)
-    (map (lambda (y) (+ x y)) nvec)))
+    (map (lambda (y) (+ x y)) nvec))
+
+  (define (brq n x)
+    (map (lambda (y) (+ x y)) nvec))
+  
+  (define (king n x)
+    (map (lambda (y) (+ x y)) nvec))
+  
+  )
