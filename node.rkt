@@ -48,14 +48,16 @@
   
   (define qvec (append bvec rvec))
   
-  (define (ally n c)
-    (if (node-t n) (char-upper-case? c) (char-lower-case? c)))
+  (define (ally n x)
+    (let ([c (string-ref (node-b n) x)])
+      (if (node-t n) (char-upper-case? c) (char-lower-case? c))))
   
-  (define (foe n c)
-    (not (ally n c)))
+  (define (foe n x)
+    (let ([c (string-ref (node-b n) x)])
+      (if (node-t n) (char-lower-case? c) (char-upper-case? c))))
   
-  (define (empty c)
-    (if (equal? c #\.) #t #f))
+  (define (empty n x)
+    (if (equal? (string-ref (node-b n) x) #\.) #t #f))
   
   (define (en_passant n x)
     (if (equal? (node-e n) x) #t #f))
@@ -76,25 +78,28 @@
   (define (pawn n x)
     (let ([v (if (node-t n) up dn)])
       (append
-       (if (empty (string-ref (node-b n) (+ x up)))
+       (if (empty n (+ x up))
            (if (and
-                (empty (string-ref (node-b n) (+ x up up)))
+                (empty n (+ x up up))
                 (member x (double n)))
                (list (+ x up) (+ x up up))
                (list (+ x up)))
            '())
        (if (or
-            (foe n (string-ref (node-b n) (+ x up rt)))
+            (foe n (+ x up rt))
             (en_passant n (+ x up rt)))
            (list (+ x up rt)) '())
        (if (or
-            (foe n (string-ref (node-b n) (+ x up lt)))
+            (foe n (+ x up lt))
             (en_passant n (+ x up lt)))
            (list (+ x up lt)) '()))))
   
   (define (knight n x)
-    (map (lambda (y) (+ x y)) nvec))
-
+    (for/list ([y nvec]
+               #:when (or (foe n (+ x y))
+                          (empty n (+ x y))))
+      (+ x y)))
+  
   (define (brq n x)
     (map (lambda (y) (+ x y)) nvec))
   
