@@ -36,12 +36,26 @@
                 (+ dn dn lt) (+ dn lt lt)                
                 ))
 
+  (define bvec (list
+                (+ up rt) (+ up lt)
+                (+ dn rt) (+ dn lt)              
+                ))
+
+  (define rvec (list
+                up dn
+                rt lt
+                ))
+
+  (define qvec (append bvec rvec))
+
   (define (ally n c)
     (if (node-t n) (char-upper-case? c) (char-lower-case? c)))
 
   (define (foe n c)
     (not (ally n c)))
-    
+
+  (define (empty n c)
+    (if (equal? c #\.) #t #f))
   
   (define (gen n x)
     (case (string-ref (node-b n) x)
