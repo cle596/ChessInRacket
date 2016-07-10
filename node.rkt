@@ -101,9 +101,16 @@
       (+ x y)))
   
   (define (brq n x)
-    (map (lambda (y) (+ x y)) nvec))
+    (for/list ([y bvec]
+               [z (in-range 1 8)]
+               #:when (or (foe n (+ x (* z y)))
+                          (empty n (+ x (* z y)))))
+      (+ x (* z y))))
   
   (define (king n x)
-    (map (lambda (y) (+ x y)) nvec))
+    (for/list ([y qvec]
+               #:when (or (foe n (+ x y))
+                          (empty n (+ x y))))
+      (+ x y)))
   
   )
