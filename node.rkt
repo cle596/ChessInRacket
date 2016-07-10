@@ -54,8 +54,11 @@
   (define (foe n c)
     (not (ally n c)))
   
-  (define (empty n c)
+  (define (empty c)
     (if (equal? c #\.) #t #f))
+  
+  (define (en_passant n x)
+    (if (equal? (node-e n) x) #t #f))
   
   (define (double n)
     (let ([y (if (node-t n) 81 31)])
@@ -72,12 +75,21 @@
   (define (pawn n x)
     (let ([v (if (node-t n) up dn)])
       (append
-       (if (equal? (string-ref (node-b n) (+ x up)) #\.)
-           (if (equal? (string-ref (node-b n) (+ x up up)) #\.)
+       (if (empty (string-ref (node-b n) (+ x up)))
+           (if (and
+                (empty (string-ref (node-b n) (+ x up up)))
+                (member x (double n)))
                (list (+ x up) (+ x up up))
                (list (+ x up)))
            '())
-       (list (+ x up rt) (+ x up lt)))))
+       (if (or
+            (foe n (string-ref (node-b n) (+ x up rt)))
+            (en_passant n (+ x up rt)))
+           (list (+ x up rt)) '())
+       (if (or
+            (foe n (string-ref (node-b n) (+ x up lt)))
+            (en_passant n (+ x up lt)))
+           (list (+ x up lt)) '()))))
   
   (define (knight n x)
     (map (lambda (y) (+ x y)) nvec)))
