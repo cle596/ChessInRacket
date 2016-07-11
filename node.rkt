@@ -56,6 +56,9 @@
     (let ([c (string-ref (node-b n) x)])
       (if (node-t n) (char-upper-case? c) (char-lower-case? c))))
   
+  (define (make-ally n c)
+    (if (node-t n) (char-upcase c) (char-downcase c)))
+  
   (define (foe n x)
     (let ([c (string-ref (node-b n) x)])
       (if (node-t n) (char-lower-case? c) (char-upper-case? c))))
@@ -72,14 +75,18 @@
   
   (define (gen n x)
     (case (string-ref (node-b n) x)
-      [(#\P #\p) (pawn n x)]
-      [(#\N #\n) (knight n x)]
-      [(#\B #\b) (brq n x bvec)]
-      [(#\R #\r) (brq n x rvec)]
-      [(#\Q #\q) (brq n x qvec)]
-      [(#\K #\k) (king n x)]
-      [else "nothing"]
+      [(make-ally n #\P) (pawn n x)]
+      [(make-ally n #\N) (knight n x)]
+      [(make-ally n #\B) (brq n x bvec)]
+      [(make-ally n #\R) (brq n x rvec)]
+      [(make-ally n #\Q) (brq n x qvec)]
+      [(make-ally n #\K) (king n x)]
+      [else '()]
       ))
+  
+  (define (gen_all n)
+    (apply append 
+           (map (curry gen n) (for/list ([x (in-range 0 119)]) x))))
   
   (define (pawn n x)
     (let ([v (if (node-t n) up dn)])
@@ -121,13 +128,13 @@
                 #:when (or (foe n (+ x y))
                            (empty n (+ x y))))
        (cons x (+ x y)))
-     (if (and (node-t n) (member (node-c n) "wq") (equal? (substring (node-b n) 92 96) "..."))
+     (if (and (node-t n) (member "wq" (node-c n)) (equal? (substring (node-b n) 92 96) "..."))
          '((cons x (- x 2))) '())
-     (if (and (node-t n) (member (node-c n) "wk") (equal? (substring (node-b n) 96 98) ".."))
+     (if (and (node-t n) (member "wk" (node-c n)) (equal? (substring (node-b n) 96 98) ".."))
          '((cons x (+ x 2))) '())
-     (if (and (not (node-t n)) (member (node-c n) "bq") (equal? (substring (node-b n) 22 26) "..."))
+     (if (and (not (node-t n)) (member "bq" (node-c n)) (equal? (substring (node-b n) 22 26) "..."))
          '((cons x (- x 2))) '())
-     (if (and (not (node-t n)) (member (node-c n) "bk") (equal? (substring (node-b n) 26 28) ".."))
+     (if (and (not (node-t n)) (member "bk" (node-c n)) (equal? (substring (node-b n) 26 28) ".."))
          '((cons x (- x 2))) '())))
   
   (define (update n m) 
