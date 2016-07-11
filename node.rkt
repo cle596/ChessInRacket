@@ -70,7 +70,9 @@
     (case (string-ref (node-b n) x)
       [(#\P #\p) (pawn n x)]
       [(#\N #\n) (knight n x)]
-      [(#\B #\b #\R #\r #\Q #\q) (brq n x)]
+      [(#\B #\b) (brq n x bvec)]
+      [(#\R #\r) (brq n x rvec)]
+      [(#\Q #\q) (brq n x qvec)]
       [(#\K #\k) (king n x)]
       [else "nothing"]
       ))
@@ -100,9 +102,9 @@
                           (empty n (+ x y))))
       (+ x y)))
   
-  (define (brq n x)
+  (define (brq n x v)
     (apply append
-           (for/list ([y bvec])
+           (for/list ([y v])
              (for/list ([z (in-range 1 8)]
                         #:break (not (or (foe n (+ x (* z y)))
                                          (empty n (+ x (* z y)))))
