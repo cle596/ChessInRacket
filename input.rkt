@@ -25,7 +25,7 @@
      30 #\7 20 #\8))
   
   (define (in i)
-    (list (+ (hash-ref iton (string-ref i 0))
+    (cons (+ (hash-ref iton (string-ref i 0))
              (hash-ref iton (string-ref i 1)))
           (+ (hash-ref iton (string-ref i 2))
              (hash-ref iton (string-ref i 3)))))
