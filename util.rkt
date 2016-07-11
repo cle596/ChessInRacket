@@ -1,11 +1,7 @@
 (module util racket
   
   (require "node.rkt")
-  
-  (provide (all-defined-out))
-  
-  (define (pretty n)
-    (list->string (add-between (string->list (node-b n)) #\space)))
+  (provide pretty)
   
   (define (unicfy lst)
     (map (lambda (x)

@@ -22,6 +22,9 @@
   
   (define f_c '("wk" "wq" "bk" "bq"))
   
+  (define (pretty n)
+    (list->string (add-between (string->list (node-b n)) #\space)))
+  
   (define root
     (node i_b #t 0 '()))
   
@@ -117,14 +120,32 @@
                #:when (or (foe n (+ x y))
                           (empty n (+ x y))))
       (cons x (+ x y))))
-
-  (define (update n m)
-    (list->string
-    (map (lambda (x)
-           (if (equal? x (cdr m))
-               (string-ref (node-b n) (car m))
-               (if (equal? x (car m))
-                  #\. (string-ref (node-b n) x)))) (for/list ([x (in-range 0 119)]) x))))
-
+  
+  (define (update n m) 
+    (struct-copy
+     node n
+     [b 
+      (list->string
+       (map (lambda (x)
+              (if (equal? x (cdr m))
+                  (string-ref (node-b n) (car m))
+                  (if (equal? x (car m))
+                      #\. (string-ref (node-b n) x)))) (for/list ([x (in-range 0 119)]) x)))]
+     [t (not (node-t n))]
+     [e (if (node-t n)
+            (if (and
+                 (member (car m) (double n))
+                 (equal? (string-ref (node-b n) (car m)) #\P)
+                 (equal? (cdr m) (+ (car m) up up)))
+                (+ (car m) up) 0)
+            (if (and
+                 (member (car m) (double n))
+                 (equal? (string-ref (node-b n) (car m)) #\p)
+                 (equal? (cdr m) (+ (car m) dn dn)))
+                (+ (car m) dn) 0)
+            )]
+     ;[c ]
+     ))
+  
   
   )
