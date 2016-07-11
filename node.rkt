@@ -14,7 +14,7 @@
      " ........\n"
      " ........\n"
      " ........\n"
-     " PPPPPPPP\n"
+     " PPP.PPPP\n"
      " RNBQKBNR\n"
      "         \n"
      "         \n"))
@@ -103,8 +103,10 @@
   (define (brq n x)
     (for/list ([y bvec]
                [z (in-range 1 8)]
-               #:when (or (foe n (+ x (* z y)))
-                          (empty n (+ x (* z y)))))
+               #:break (or (foe n (+ x (* z y)))
+                          (empty n (+ x (* z y))))
+               #:final (foe n (+ x (* z y))))
+               
       (+ x (* z y))))
   
   (define (king n x)
