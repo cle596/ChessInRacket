@@ -74,15 +74,16 @@
       (for/list ([x (in-range y (+ y 8))]) x)))
   
   (define (gen n x)
-    (case (string-ref (node-b n) x)
-      [(make-ally n #\P) (pawn n x)]
-      [(make-ally n #\N) (knight n x)]
-      [(make-ally n #\B) (brq n x bvec)]
-      [(make-ally n #\R) (brq n x rvec)]
-      [(make-ally n #\Q) (brq n x qvec)]
-      [(make-ally n #\K) (king n x)]
+    (let ([z (string-ref (node-b n) x)])
+    (cond 
+      [(equal? z (make-ally n #\P)) (pawn n x)]
+      [(equal? z (make-ally n #\N)) (knight n x)]
+      [(equal? z (make-ally n #\B)) (brq n x bvec)]
+      [(equal? z (make-ally n #\R)) (brq n x rvec)]
+      [(equal? z (make-ally n #\Q)) (brq n x qvec)]
+      [(equal? z (make-ally n #\K)) (king n x)]
       [else '()]
-      ))
+      )))
   
   (define (gen_all n)
     (apply append 
@@ -91,21 +92,21 @@
   (define (pawn n x)
     (let ([v (if (node-t n) up dn)])
       (append
-       (if (empty n (+ x up))
+       (if (empty n (+ x v))
            (if (and
-                (empty n (+ x up up))
+                (empty n (+ x v v))
                 (member x (double n)))
-               (list (cons x (+ x up)) (cons x (+ x up up)))
-               (list (cons x (+ x up))))
+               (list (cons x (+ x v)) (cons x (+ x v v)))
+               (list (cons x (+ x v))))
            '())
        (if (or
-            (foe n (+ x up rt))
-            (en_passant n (+ x up rt)))
-           (list (cons x (+ x up rt))) '())
+            (foe n (+ x v rt))
+            (en_passant n (+ x v rt)))
+           (list (cons x (+ x v rt))) '())
        (if (or
-            (foe n (+ x up lt))
-            (en_passant n (+ x up lt)))
-           (list (cons x (+ x up lt))) '()))))
+            (foe n (+ x v lt))
+            (en_passant n (+ x v lt)))
+           (list (cons x (+ x v lt))) '()))))
   
   (define (knight n x)
     (for/list ([y nvec]
@@ -128,13 +129,13 @@
                 #:when (or (foe n (+ x y))
                            (empty n (+ x y))))
        (cons x (+ x y)))
-     (if (and (node-t n) (member "wq" (node-c n)) (equal? (substring (node-b n) 92 96) "..."))
+     (if (and (node-t n) (list? (member "wq" (node-c n))) (equal? (substring (node-b n) 92 96) "..."))
          '((cons x (- x 2))) '())
-     (if (and (node-t n) (member "wk" (node-c n)) (equal? (substring (node-b n) 96 98) ".."))
+     (if (and (node-t n) (list? (member "wk" (node-c n))) (equal? (substring (node-b n) 96 98) ".."))
          '((cons x (+ x 2))) '())
-     (if (and (not (node-t n)) (member "bq" (node-c n)) (equal? (substring (node-b n) 22 26) "..."))
+     (if (and (not (node-t n)) (list? (member "bq" (node-c n))) (equal? (substring (node-b n) 22 26) "..."))
          '((cons x (- x 2))) '())
-     (if (and (not (node-t n)) (member "bk" (node-c n)) (equal? (substring (node-b n) 26 28) ".."))
+     (if (and (not (node-t n)) (list? (member "bk" (node-c n))) (equal? (substring (node-b n) 26 28) ".."))
          '((cons x (- x 2))) '())))
   
   (define (update n m) 
@@ -165,6 +166,7 @@
           [(#\k) (remove* '("bk" "bq") (node-c n))]
           [(#\R) (if (equal? (car m) 91) (remove "wq" (node-c n)) (remove "wk" (node-c n)))]
           [(#\r) (if (equal? (car m) 21) (remove "bq" (node-c n)) (remove "bk" (node-c n)))]
+          [else (node-c n)]
           )]
      ))
   

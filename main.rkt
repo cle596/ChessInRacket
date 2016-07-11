@@ -10,8 +10,9 @@
 (define (loop n)
   (begin
     (displayln (pretty n))
-    (displayln (map ni (gen_all root)))
-    (let ([m (read-line)])
-      (loop (update n (in m))))))
+    (displayln (node-t n))
+    (displayln (node-c n))
+    (displayln (map ni (gen_all n)))
+      (loop (update n (in (read-line))))))
 
 (loop root)
