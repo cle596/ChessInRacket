@@ -116,10 +116,19 @@
                (cons x (+ x (* z y)))))))
   
   (define (king n x)
-    (for/list ([y qvec]
-               #:when (or (foe n (+ x y))
-                          (empty n (+ x y))))
-      (cons x (+ x y))))
+    (append
+     (for/list ([y qvec]
+                #:when (or (foe n (+ x y))
+                           (empty n (+ x y))))
+       (cons x (+ x y)))
+     (if (and (node-t n) (member (node-c n) "wq") (equal? (substring (node-b n) 92 96) "..."))
+         '((cons x (- x 2))) '())
+     (if (and (node-t n) (member (node-c n) "wk") (equal? (substring (node-b n) 96 98) ".."))
+         '((cons x (+ x 2))) '())
+     (if (and (not (node-t n)) (member (node-c n) "bq") (equal? (substring (node-b n) 22 26) "..."))
+         '((cons x (- x 2))) '())
+     (if (and (not (node-t n)) (member (node-c n) "bk") (equal? (substring (node-b n) 26 28) ".."))
+         '((cons x (- x 2))) '())))
   
   (define (update n m) 
     (struct-copy
