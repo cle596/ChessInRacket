@@ -1,4 +1,5 @@
 (module node racket
+  
   (provide (except-out (all-defined-out) root))
   
   #| board turn en_passant castle |#
@@ -84,23 +85,23 @@
            (if (and
                 (empty n (+ x up up))
                 (member x (double n)))
-               (list (+ x up) (+ x up up))
-               (list (+ x up)))
+               (list (cons x (+ x up)) (cons x (+ x up up)))
+               (list (cons x (+ x up))))
            '())
        (if (or
             (foe n (+ x up rt))
             (en_passant n (+ x up rt)))
-           (list (+ x up rt)) '())
+           (list (cons x (+ x up rt))) '())
        (if (or
             (foe n (+ x up lt))
             (en_passant n (+ x up lt)))
-           (list (+ x up lt)) '()))))
+           (list (cons x (+ x up lt))) '()))))
   
   (define (knight n x)
     (for/list ([y nvec]
                #:when (or (foe n (+ x y))
                           (empty n (+ x y))))
-      (+ x y)))
+      (cons x (+ x y))))
   
   (define (brq n x v)
     (apply append
@@ -109,12 +110,21 @@
                         #:break (not (or (foe n (+ x (* z y)))
                                          (empty n (+ x (* z y)))))
                         #:final (foe n (+ x (* z y))))
-               (+ x (* z y))))))
+               (cons x (+ x (* z y)))))))
   
   (define (king n x)
     (for/list ([y qvec]
                #:when (or (foe n (+ x y))
                           (empty n (+ x y))))
-      (+ x y)))
+      (cons x (+ x y))))
+
+  (define (update n m)
+    (list->string
+    (map (lambda (x)
+           (if (equal? x (cdr m))
+               (string-ref (node-b n) (car m))
+               (if (equal? x (car m))
+                  #\. (string-ref (node-b n) x)))) (for/list ([x (in-range 0 119)]) x))))
+
   
   )
