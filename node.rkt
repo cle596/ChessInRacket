@@ -26,7 +26,7 @@
     (list->string (add-between (string->list (node-b n)) #\space)))
   
   (define root
-    (node i_b #t 0 '()))
+    (node i_b #t 0 '("wk" "wq" "bk" "bq")))
   
   (define up -10)
   (define dn 10)
@@ -144,7 +144,12 @@
                  (equal? (cdr m) (+ (car m) dn dn)))
                 (+ (car m) dn) 0)
             )]
-     ;[c ]
+     [c (case (string-ref (node-b n) (car m))
+          [(#\K) (remove* '("wk" "wq") (node-c n))]
+          [(#\k) (remove* '("bk" "bq") (node-c n))]
+          [(#\R) (if (equal? (car m) 91) (remove "wq" (node-c n)) (remove "wk" (node-c n)))]
+          [(#\r) (if (equal? (car m) 21) (remove "bq" (node-c n)) (remove "bk" (node-c n)))]
+          )]
      ))
   
   

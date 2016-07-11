@@ -5,7 +5,7 @@
          "input.rkt")
 
 (define root
-  (node i_b #t 0 '()))
+  (node i_b #t 0 '("wk" "wq" "bk" "bq")))
 
 (define (loop n)
   (begin
