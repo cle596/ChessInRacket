@@ -75,15 +75,15 @@
   
   (define (gen n x)
     (let ([z (string-ref (node-b n) x)])
-    (cond 
-      [(equal? z (make-ally n #\P)) (pawn n x)]
-      [(equal? z (make-ally n #\N)) (knight n x)]
-      [(equal? z (make-ally n #\B)) (brq n x bvec)]
-      [(equal? z (make-ally n #\R)) (brq n x rvec)]
-      [(equal? z (make-ally n #\Q)) (brq n x qvec)]
-      [(equal? z (make-ally n #\K)) (king n x)]
-      [else '()]
-      )))
+      (cond 
+        [(equal? z (make-ally n #\P)) (pawn n x)]
+        [(equal? z (make-ally n #\N)) (knight n x)]
+        [(equal? z (make-ally n #\B)) (brq n x bvec)]
+        [(equal? z (make-ally n #\R)) (brq n x rvec)]
+        [(equal? z (make-ally n #\Q)) (brq n x qvec)]
+        [(equal? z (make-ally n #\K)) (king n x)]
+        [else '()]
+        )))
   
   (define (gen_all n)
     (apply append 
@@ -129,25 +129,38 @@
                 #:when (or (foe n (+ x y))
                            (empty n (+ x y))))
        (cons x (+ x y)))
-     (if (and (node-t n) (list? (member "wq" (node-c n))) (equal? (substring (node-b n) 92 96) "..."))
-         '((cons x (- x 2))) '())
+     (if (and (node-t n) (list? (member "wq" (node-c n))) (equal? (substring (node-b n) 92 95) "..."))
+         (list (cons x (- x 2))) '())
      (if (and (node-t n) (list? (member "wk" (node-c n))) (equal? (substring (node-b n) 96 98) ".."))
-         '((cons x (+ x 2))) '())
-     (if (and (not (node-t n)) (list? (member "bq" (node-c n))) (equal? (substring (node-b n) 22 26) "..."))
-         '((cons x (- x 2))) '())
+         (list (cons x (+ x 2))) '())
+     (if (and (not (node-t n)) (list? (member "bq" (node-c n))) (equal? (substring (node-b n) 22 25) "..."))
+         (list (cons x (- x 2))) '())
      (if (and (not (node-t n)) (list? (member "bk" (node-c n))) (equal? (substring (node-b n) 26 28) ".."))
-         '((cons x (- x 2))) '())))
+         (list (cons x (- x 2))) '())))
   
   (define (update n m) 
     (struct-copy
      node n
-     [b 
-      (list->string
-       (map (lambda (x)
-              (if (equal? x (cdr m))
-                  (string-ref (node-b n) (car m))
-                  (if (equal? x (car m))
-                      #\. (string-ref (node-b n) x)))) (for/list ([x (in-range 0 119)]) x)))]
+     [b (cond
+          [(equal? m (cons 95 93))
+           (list->string
+            (map (lambda (x)
+                   (cond
+                     [(equal? x (car m)) #\.]
+                     [(equal? x (cdr m)) #\K]
+                     [(equal? x 91) #\.]
+                     [(equal? x 94) #\R]
+                     [else (string-ref (node-b n) x)]))
+                 (for/list ([x (in-range 0 119)]) x)))]
+          [(equal? m (cons 95 97)) (node-b n)]
+          [(equal? m (cons 25 23)) (node-b n)]
+          [(equal? m (cons 25 27)) (node-b n)]
+          [else (list->string
+                 (map (lambda (x)
+                        (if (equal? x (cdr m))
+                            (string-ref (node-b n) (car m))
+                            (if (equal? x (car m))
+                                #\. (string-ref (node-b n) x)))) (for/list ([x (in-range 0 119)]) x)))])]
      [t (not (node-t n))]
      [e (if (node-t n)
             (if (and
