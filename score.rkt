@@ -16,6 +16,13 @@
      #\r -500 #\b -330
      #\n -320 #\p -100))
   
+  (define (neg p)
+    (map
+     (lambda (x)
+       (list-ref p
+                 (+ (- 110 (* (quotient x 10) 10)) (remainder x 10))))
+     (for/list ([x (in-range 0 119)]) x)))
+  
   (define pst
     (hash
      #\P
@@ -98,5 +105,14 @@
           0 20 30 10  0  0 10 30 20  0
           0  0  0  0  0  0  0  0  0  0
           0  0  0  0  0  0  0  0  0  0)))
+
+  (define pstt
+    (hash-set* pst
+               #\p (neg (hash-ref pst #\P))
+               #\n (neg (hash-ref pst #\N))
+               #\b (neg (hash-ref pst #\B))
+               #\r (neg (hash-ref pst #\R))
+               #\q (neg (hash-ref pst #\Q))
+               #\k (neg (hash-ref pst #\K))))
   
   )
