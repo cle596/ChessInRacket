@@ -1,0 +1,7 @@
+(module score racket
+
+    (provide (except-out (all-defined-out) root))
+  
+  (require "node.rkt")
+  
+  )
