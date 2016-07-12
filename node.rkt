@@ -5,6 +5,9 @@
   #| board turn en_passant castle |#
   (struct node (b t e c))
   
+  (define (printn n)
+    (map displayln (list (pretty n) (node-t n) (node-e n) (node-c n))))
+
   (define i_b
     (string-append
      "         \n"
@@ -152,9 +155,36 @@
                      [(equal? x 94) #\R]
                      [else (string-ref (node-b n) x)]))
                  (for/list ([x (in-range 0 119)]) x)))]
-          [(equal? m (cons 95 97)) (node-b n)]
-          [(equal? m (cons 25 23)) (node-b n)]
-          [(equal? m (cons 25 27)) (node-b n)]
+          [(equal? m (cons 95 97))
+           (list->string
+            (map (lambda (x)
+                   (cond
+                     [(equal? x (car m)) #\.]
+                     [(equal? x (cdr m)) #\K]
+                     [(equal? x 98) #\.]
+                     [(equal? x 96) #\R]
+                     [else (string-ref (node-b n) x)]))
+                 (for/list ([x (in-range 0 119)]) x)))]
+          [(equal? m (cons 25 23))
+           (list->string
+            (map (lambda (x)
+                   (cond
+                     [(equal? x (car m)) #\.]
+                     [(equal? x (cdr m)) #\K]
+                     [(equal? x 21) #\.]
+                     [(equal? x 24) #\R]
+                     [else (string-ref (node-b n) x)]))
+                 (for/list ([x (in-range 0 119)]) x)))]
+          [(equal? m (cons 25 27))
+           (list->string
+            (map (lambda (x)
+                   (cond
+                     [(equal? x (car m)) #\.]
+                     [(equal? x (cdr m)) #\K]
+                     [(equal? x 28) #\.]
+                     [(equal? x 26) #\R]
+                     [else (string-ref (node-b n) x)]))
+                 (for/list ([x (in-range 0 119)]) x)))]
           [else (list->string
                  (map (lambda (x)
                         (if (equal? x (cdr m))
