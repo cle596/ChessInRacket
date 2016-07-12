@@ -90,7 +90,7 @@
   
   (define (gen_all n)
     (apply append 
-           (map (curry gen n) (for/list ([x (in-range 0 119)]) x))))
+           (map (curry gen n) (for/list ([x (in-range 0 120)]) x))))
   
   (define (pawn n x)
     (let ([v (if (node-t n) up dn)])
@@ -165,7 +165,7 @@
                         (if (equal? x (cdr m))
                             (string-ref (node-b n) (car m))
                             (if (equal? x (car m))
-                                #\. (string-ref (node-b n) x)))) (for/list ([x (in-range 0 119)]) x)))])]
+                                #\. (string-ref (node-b n) x)))) (for/list ([x (in-range 0 120)]) x)))])]
      [t (not (node-t n))]
      [e (let ([v (if (node-t n) up dn)])
           (if (and

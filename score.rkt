@@ -3,6 +3,7 @@
   (provide (except-out (all-defined-out) root))
   
   (require "node.rkt")
+  (require racket/pretty)
   
   (define root
     (node i_b #t 0 '("wk" "wq" "bk" "bq")))
@@ -19,9 +20,10 @@
   (define (neg p)
     (map
      (lambda (x)
-       (list-ref p
-                 (+ (- 110 (* (quotient x 10) 10)) (remainder x 10))))
-     (for/list ([x (in-range 0 119)]) x)))
+       (* -1
+          (list-ref p
+                    (+ (- 110 (* (quotient x 10) 10)) (remainder x 10)))))
+     (for/list ([x (in-range 0 120)]) x)))
   
   (define pst
     (hash
@@ -105,7 +107,7 @@
           0 20 30 10  0  0 10 30 20  0
           0  0  0  0  0  0  0  0  0  0
           0  0  0  0  0  0  0  0  0  0)))
-
+  
   (define pstt
     (hash-set* pst
                #\p (neg (hash-ref pst #\P))
@@ -114,5 +116,18 @@
                #\r (neg (hash-ref pst #\R))
                #\q (neg (hash-ref pst #\Q))
                #\k (neg (hash-ref pst #\K))))
+  
+  
+  (define (score n)
+    (for/sum ([y 
+               (map 
+                (lambda (x)
+                  (if (hash-has-key? mat (string-ref (node-b n) x))
+                      (+
+                       (hash-ref mat (string-ref (node-b n) x))
+                       (list-ref (hash-ref pstt (string-ref (node-b n) x)) x)
+                       ) 0)) 
+                (for/list ([x (in-range 0 120)]) x))]) y)
+    )
   
   )
