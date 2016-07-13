@@ -10,19 +10,21 @@
   (define inf 100000)
   
   (define (spawn d n)
-    (let ([v (if (node-t n) (vector (* -1 inf)) (vector inf))])
-      (if (equal? d 0)
-          (score n)
-          (map
-           (lambda (c)
-             (begin
-               (printn c d (vector-ref v 0))
-               (read-line)
-               (letrec ([s (spawn (- d 1) c)]
-                        [m (if (node-t n) (max s (vector-ref v 0)) (min s (vector-ref v 0)))])
-                 (vector-set! v 0 m)
-                 m
-                 )))
-           (map (curry update n) (gen_all n))))))
-  
-  )
+    (if (equal? d 0)
+        (list (score n) "none")
+        (if (node-t n)
+            (apply max
+                   (map
+                    (lambda (c)
+                      (spawn (- d 1) c)
+                      )
+                    (map (curry update n) (gen_all n))))
+            (apply min
+                   (map
+                    (lambda (c)
+                      (spawn (- d 1) c)
+                      )
+                    (map (curry update n) (gen_all n))))
+            )))
+    
+    )
