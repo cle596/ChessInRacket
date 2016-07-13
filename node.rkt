@@ -5,8 +5,15 @@
   #| board turn en_passant castle |#
   (struct node (b t e c))
   
-  (define (printn n)
-    (map displayln (list (pretty n) (node-t n) (node-e n) (node-c n))))
+  (define (printn n d v)
+    (map displayln
+         (list
+          (pretty n)
+          (string-append "turn: " (format "~a" (node-t n)))
+          (string-append "en-passant: " (number->string (node-e n)))
+          (node-c n)
+          (string-append "depth: " (number->string d))
+          (string-append "value: " (number->string v)))))
   
   (define i_b
     (string-append
