@@ -3,7 +3,7 @@
   (provide (except-out (all-defined-out) root))
   
   #| board turn en_passant castle |#
-  (struct node (b t e c))
+  (struct node (b t e c m s))
   
   (define (printn n d v)
     (map displayln
@@ -36,7 +36,7 @@
     (list->string (add-between (string->list (node-b n)) #\space)))
   
   (define root
-    (node i_b #t 0 '("wk" "wq" "bk" "bq")))
+    (node i_b #t 0 '("wk" "wq" "bk" "bq") (cons 0 0) 0))
   
   (define up -10)
   (define dn 10)
@@ -188,6 +188,8 @@
           [(#\r) (if (equal? (car m) 21) (remove "bq" (node-c n)) (remove "bk" (node-c n)))]
           [else (node-c n)]
           )]
+     [m m]
+     [s 0]
      ))
   
   
