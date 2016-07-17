@@ -7,24 +7,22 @@
   (define root
     (node i_b #t 0 '("wk" "wq" "bk" "bq")))
   
-  (define inf 100000)
+  (define (make-score-node-pair lst)
+    (map (lambda (x) (cons x (score x))) lst))
+  
+  (define (get-three-candidates lst)
+    (map (lambda (x) (car x)) (take (sort (make-score-node-pair lst) #:key cdr >) 3)))
+
+  (define (minimax n)
+    (if (node-t n) (curry apply max) (curry apply min)))
   
   (define (spawn d n)
     (if (equal? d 0)
-        (list (score n) "none")
-        (if (node-t n)
-            (apply max
-                   (map
-                    (lambda (c)
-                      (spawn (- d 1) c)
-                      )
-                    (map (curry update n) (gen_all n))))
-            (apply min
-                   (map
-                    (lambda (c)
-                      (spawn (- d 1) c)
-                      )
-                    (map (curry update n) (gen_all n))))
-            )))
-    
-    )
+        (score n)
+        ((minimax n)
+            (map
+             (lambda (c) (spawn (- d 1) c))
+             (get-three-candidates (map (curry update n) (gen_all n)))))))
+  
+  )
+
