@@ -12,22 +12,22 @@
   
   (define (get-three-candidates n lst)
     (if (node-t n)
-    (map (lambda (x) (car x)) (take (sort (make-score-node-pair lst) #:key cdr >) 3))
-    (map (lambda (x) (car x)) (take (sort (make-score-node-pair lst) #:key cdr <) 3))))
+        (map (lambda (x) (car x)) (take (sort (make-score-node-pair lst) #:key cdr >) 3))
+        (map (lambda (x) (car x)) (take (sort (make-score-node-pair lst) #:key cdr <) 3))))
   
   (define (minimax n lst)
-    (car
-     (if (node-t n)
-         (sort lst #:key cdr >)
-         (sort lst #:key cdr <))))
+    (letrec ([m
+           (if (node-t n)
+               (sort lst #:key (compose cdr cdr) >)
+               (sort lst #:key (compose cdr cdr) <))]
+             [mm (car m)])
+      (cons (car mm) (cdr (cdr mm)))))
   
   (define (spawn d n)
     (if (equal? d 0)
         (cons (node-m n) (score n))
-        (minimax n
-                 (map
-                  (lambda (c) (spawn (- d 1) c))
-                  (get-three-candidates n (map (curry update n) (gen_all n)))))))
+        (minimax n (for/list ([t (get-three-candidates n (for/list ([m (gen_all n)]) (update n m)))])
+                     (cons (node-m t) (spawn (- d 1) t))))))
   
   )
 
