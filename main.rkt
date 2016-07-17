@@ -2,7 +2,8 @@
 
 (require "node.rkt"
          "util.rkt"
-         "input.rkt")
+         "input.rkt"
+         "search.rkt")
 
 (define root
   (node i_b #t 0 '("wk" "wq" "bk" "bq") (cons 0 0) 0))
@@ -10,9 +11,7 @@
 (define (loop n)
   (begin
     (displayln (pretty n))
-    ;(displayln (node-t n))
-    ;(displayln (node-c n))
-    (displayln (map ni (gen_all n)))
-      (loop (update n (in (read-line))))))
+    (let ([i (update n (in (read-line)))])
+      (loop (update i (car (spawn 8 i)))))))
 
 (loop root)
