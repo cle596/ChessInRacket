@@ -26,3 +26,17 @@ easy
 random
 white
 go
+xboard
+protover 2
+accepted setboard
+accepted sigint
+accepted variants
+accepted done
+new
+post
+sd 3
+hard
+easy
+random
+white
+go

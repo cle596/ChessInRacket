@@ -153,9 +153,9 @@
      (map (lambda (x)
             (cond
               [(equal? x (car m)) #\.]
-              [(equal? x (cdr m)) ((if (node-t n) char-upcase char-downcase) #\K)]
+              [(equal? x (cdr m)) #\K]
               [(equal? x r1) #\.]
-              [(equal? x r2) ((if (node-t n) char-upcase char-downcase) #\R)]
+              [(equal? x r2) #\R]
               [else (string-ref (node-b n) x)]))
           (for/list ([x (in-range 0 120)]) x))))
 

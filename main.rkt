@@ -14,7 +14,14 @@
     (let ([i (update n (in (read-line)))])
       (loop (update i (car (spawn 8 i)))))))
 
-;(loop root)
+(define (mloop n)
+  (begin
+    (displayln (pretty n))
+    (displayln (map ttrans (gen_all n)))
+    (let ([i (update n (in (read-line)))])
+      (mloop i))))
+
+
 
 (define (pront x)
   (displayln x)
@@ -66,4 +73,10 @@
       )
   )
 
-(gui root)
+
+
+
+
+;(loop root) ;text UI
+(mloop root) ;text UI
+;(gui root) ;xboard UI
