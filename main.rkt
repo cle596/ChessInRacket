@@ -12,7 +12,7 @@
   (begin
     (displayln (pretty n))
     (let ([i (update n (in (read-line)))])
-      (loop (update i (car (spawn 12 i)))))))
+      (loop (update i (car (spawn 8 i)))))))
 
 (define (mloop n)
   (begin
