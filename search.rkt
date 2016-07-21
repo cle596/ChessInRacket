@@ -11,9 +11,9 @@
     (map (lambda (x) (cons x (score x))) lst))
   
   (define (take-upto lst n)
-    (if (>= (length lst) 3)
-        (take lst 3)
-        (take lst n)))
+    (if (>= (length lst) n)
+        (take lst n)
+        (take lst (length lst))))
   
   (define (get-three-candidates n lst)
     (if (node-t n)

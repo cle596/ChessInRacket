@@ -212,3 +212,139 @@ time 598
 otim 30000
 white
 go
+xboard
+protover 2
+accepted setboard
+accepted sigint
+accepted variants
+accepted done
+new
+post
+sd 3
+hard
+easy
+random
+level 0 5 0
+time 598
+otim 30000
+white
+go
+xboard
+protover 2
+accepted setboard
+accepted sigint
+accepted variants
+accepted done
+new
+post
+sd 3
+hard
+easy
+random
+level 0 5 0
+time 598
+otim 30000
+white
+go
+xboard
+protover 2
+accepted setboard
+accepted sigint
+accepted variants
+accepted done
+new
+post
+sd 3
+hard
+easy
+random
+level 0 5 0
+time 598
+otim 30000
+white
+go
+xboard
+protover 2
+accepted setboard
+accepted sigint
+accepted variants
+accepted done
+new
+post
+sd 3
+hard
+easy
+random
+level 0 5 0
+time 598
+otim 30000
+white
+go
+xboard
+protover 2
+accepted setboard
+accepted sigint
+accepted variants
+accepted done
+new
+post
+sd 3
+hard
+easy
+random
+level 0 5 0
+time 598
+otim 30000
+white
+go
+xboard
+protover 2
+accepted setboard
+accepted sigint
+accepted variants
+accepted done
+new
+post
+sd 3
+hard
+easy
+random
+level 0 5 0
+time 598
+otim 30000
+white
+go
+xboard
+protover 2
+accepted setboard
+accepted sigint
+accepted variants
+accepted done
+new
+post
+sd 3
+hard
+easy
+random
+level 0 5 0
+time 598
+otim 30000
+white
+go
+xboard
+protover 2
+accepted setboard
+accepted sigint
+accepted variants
+accepted done
+new
+post
+sd 3
+hard
+easy
+random
+level 0 5 0
+time 598
+otim 30000
+white
+go
