@@ -12,7 +12,7 @@
   (begin
     (displayln (pretty n))
     (let ([i (update n (in (read-line)))])
-      (loop (update i (car (spawn 8 i)))))))
+      (loop (update i (car (spawn 12 i)))))))
 
 (define (mloop n)
   (begin
@@ -78,5 +78,5 @@
 
 
 ;(loop root) ;text UI
-(mloop root) ;text UI
-;(gui root) ;xboard UI
+;(mloop root) ;text UI
+(gui root) ;xboard UI

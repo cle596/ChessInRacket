@@ -163,10 +163,10 @@
     (struct-copy
      node n
      [b (cond
-          [(equal? m (cons 95 93)) (cas n m 91 94)]
-          [(equal? m (cons 95 97)) (cas n m 98 96)]
-          [(equal? m (cons 25 23)) (cas n m 21 24)]
-          [(equal? m (cons 25 27)) (cas n m 28 26)]
+          [(and (equal? m (cons 95 93)) (equal? (string-ref (node-b n) 95) #\K)) (cas n m 91 94)]
+          [(and (equal? m (cons 95 97)) (equal? (string-ref (node-b n) 95) #\K)) (cas n m 98 96)]
+          [(and (equal? m (cons 25 23)) (equal? (string-ref (node-b n) 25) #\k)) (cas n m 21 24)]
+          [(and (equal? m (cons 25 27)) (equal? (string-ref (node-b n) 25) #\k)) (cas n m 28 26)]
           [else (list->string
                  (map (lambda (x)
                         (if (equal? x (cdr m))
