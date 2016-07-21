@@ -10,16 +10,21 @@
   (define (make-score-node-pair lst)
     (map (lambda (x) (cons x (score x))) lst))
   
+  (define (take-upto lst n)
+    (if (>= (length lst) 3)
+        (take lst 3)
+        (take lst n)))
+  
   (define (get-three-candidates n lst)
     (if (node-t n)
-        (map (lambda (x) (car x)) (take (sort (make-score-node-pair lst) #:key cdr >) 3))
-        (map (lambda (x) (car x)) (take (sort (make-score-node-pair lst) #:key cdr <) 3))))
+        (map (lambda (x) (car x)) (take-upto (sort (make-score-node-pair lst) #:key cdr >) 3))
+        (map (lambda (x) (car x)) (take-upto (sort (make-score-node-pair lst) #:key cdr <) 3))))
   
   (define (minimax n lst)
     (letrec ([m
-           (if (node-t n)
-               (sort lst #:key (compose cdr cdr) >)
-               (sort lst #:key (compose cdr cdr) <))]
+              (if (node-t n)
+                  (sort lst #:key (compose cdr cdr) >)
+                  (sort lst #:key (compose cdr cdr) <))]
              [mm (car m)])
       (cons (car mm) (cdr (cdr mm)))))
   
