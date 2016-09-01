@@ -5,4 +5,4 @@
 bindir="/usr/bin"
 # }}} bindir
 
-exec "${bindir}/racket" -N "$0" '-I' 'scheme/init' '-qt-' '/home/ch/Documents/racketess/main.rkt'  ${1+"$@"}
+exec "${bindir}/racket" -N "$0" '-I' 'scheme/init' '-qt-' '/home/ch/proj/racketess/main.rkt'  ${1+"$@"}
